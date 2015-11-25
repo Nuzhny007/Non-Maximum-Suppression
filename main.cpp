@@ -14,40 +14,27 @@ void nms(
 
 	const size_t size = srcRects.size();
 
-    // If there are no boxes, return an empty list
+	// If there are no boxes, return an empty list
 	if (!size)
 	{
 		return;
 	}
 
-	// Grab the coordinates of the bounding boxes
-	std::vector<int> x1(size);
-	std::vector<int> y1(size);
-	std::vector<int> x2(size);
-	std::vector<int> y2(size);
-	std::vector<float> area(size);
-	std::multimap<int, size_t> idxs; // Sort the bounding boxes by the bottom - right y - coordinate of the bounding box
-
+	// Sort the bounding boxes by the bottom - right y - coordinate of the bounding box
+	std::multimap<int, size_t> idxs;
 	for (size_t i = 0; i < size; ++i)
 	{
-		const cv::Rect& r = srcRects[i];
-
-		x1[i] = r.x;
-		y1[i] = r.y;
-		x2[i] = r.x + r.width;
-		y2[i] = r.y + r.height;
-		area[i] = static_cast<float>(r.width * r.height);
-		idxs.insert(std::pair<int, size_t>(y2[i], i));
+		idxs.insert(std::pair<int, size_t>(srcRects[i].br().y, i));
 	}
-	
+
 	// keep looping while some indexes still remain in the indexes list
 	while (idxs.size() > 0)
 	{
 		// grab the last index in the indexes list, add the index value to the list of picked indexes, then initialize the suppression list(i.e.indexes that will be deleted) using the last index
 		auto lastElem = --std::end(idxs);
-		const size_t i = lastElem->second;
+		const cv::Rect& rect1 = srcRects[lastElem->second];
 
-		resRects.push_back(srcRects[i]);
+		resRects.push_back(rect1);
 
 		idxs.erase(lastElem);
 
@@ -55,20 +42,20 @@ void nms(
 		for (auto pos = std::begin(idxs); pos != std::end(idxs); )
 		{
 			// grab the current index
-			const size_t j = pos->second;
-			
+			const cv::Rect& rect2 = srcRects[pos->second];
+
 			// find the largest(x, y) coordinates for the start of the bounding box and the smallest(x, y) coordinates for the end of the bounding box
-			int xx1 = std::max(x1[i], x1[j]);
-			int yy1 = std::max(y1[i], y1[j]);
-			int xx2 = std::min(x2[i], x2[j]);
-			int yy2 = std::min(y2[i], y2[j]);
-			
+			int xx1 = std::max(rect1.x, rect2.x);
+			int yy1 = std::max(rect1.y, rect2.y);
+			int xx2 = std::min(rect1.br().x, rect2.br().x);
+			int yy2 = std::min(rect1.br().y, rect2.br().y);
+
 			// compute the width and height of the bounding box
 			int w = std::max(0, xx2 - xx1 + 1);
 			int h = std::max(0, yy2 - yy1 + 1);
 
 			// compute the ratio of overlap between the computed bounding box and the bounding box in the area list
-			float overlap = (w * h) / area[j];
+			float overlap = (w * h) / static_cast<float>(rect2.area());
 
 			// if there is sufficient overlap, suppress the current bounding box
 			if (overlap > thresh)
