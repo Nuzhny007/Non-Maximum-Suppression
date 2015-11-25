@@ -1,6 +1,4 @@
 #include <iostream>
-#include <string>
-#include <time.h>
 
 #include <opencv2/opencv.hpp>
 
