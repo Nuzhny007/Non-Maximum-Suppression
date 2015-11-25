@@ -39,18 +39,9 @@ void nms(
 			// grab the current rectangle
 			const cv::Rect& rect2 = srcRects[pos->second];
 
-			// find the largest(x, y) coordinates for the start of the bounding box and the smallest(x, y) coordinates for the end of the bounding box
-			int xx1 = std::max(rect1.x, rect2.x);
-			int yy1 = std::max(rect1.y, rect2.y);
-			int xx2 = std::min(rect1.br().x, rect2.br().x);
-			int yy2 = std::min(rect1.br().y, rect2.br().y);
-
-			// compute the width and height of the bounding box
-			int w = std::max(0, xx2 - xx1 + 1);
-			int h = std::max(0, yy2 - yy1 + 1);
-
-			// compute the ratio of overlap between the computed bounding box and the bounding box in the area list
-			float overlap = (w * h) / static_cast<float>(rect2.area());
+			float intArea = (rect1 & rect2).area();
+			float unionArea = rect1.area() + rect2.area() - intArea;
+			float overlap = intArea / unionArea;
 
 			// if there is sufficient overlap, suppress the current bounding box
 			if (overlap > thresh)
