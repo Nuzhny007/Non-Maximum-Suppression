@@ -13,8 +13,6 @@ void nms(
 	resRects.clear();
 
 	const size_t size = srcRects.size();
-
-	// If there are no boxes, return an empty list
 	if (!size)
 	{
 		return;
@@ -30,7 +28,7 @@ void nms(
 	// keep looping while some indexes still remain in the indexes list
 	while (idxs.size() > 0)
 	{
-		// grab the last index in the indexes list, add the index value to the list of picked indexes, then initialize the suppression list(i.e.indexes that will be deleted) using the last index
+		// grab the last rectangle
 		auto lastElem = --std::end(idxs);
 		const cv::Rect& rect1 = srcRects[lastElem->second];
 
@@ -38,10 +36,9 @@ void nms(
 
 		idxs.erase(lastElem);
 
-		// loop over all indexes in the indexes list
 		for (auto pos = std::begin(idxs); pos != std::end(idxs); )
 		{
-			// grab the current index
+			// grab the current rectangle
 			const cv::Rect& rect2 = srcRects[pos->second];
 
 			// find the largest(x, y) coordinates for the start of the bounding box and the smallest(x, y) coordinates for the end of the bounding box
