@@ -16,10 +16,7 @@ if (OPENMP_FOUND)
 endif()
 
 if (CMAKE_COMPILER_IS_GNUCXX)
-    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall" CACHE STRING COMPILE_FLAGS FORCE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -g" CACHE STRING COMPILE_FLAGS FORCE)
-    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -Wall" CACHE STRING COMPILE_FLAGS FORCE)
-    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -Wall" CACHE STRING COMPILE_FLAGS FORCE)
 
     set(CMAKE_CXX_FLAGS_RELEASE "-O3 -g -march=native --fast-math -ffast-math -mtune=native -funroll-loops -DNDEBUG -DBOOST_DISABLE_ASSERTS" CACHE STRING COMPILE_FLAGS FORCE)
     set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g -DDEBUG" CACHE STRING COMPILE_FLAGS FORCE)
@@ -43,14 +40,7 @@ link_directories(
 
 list(REMOVE_ITEM OpenCV_LIBS "opencv_adas" "opencv_cvv" "opencv_aruco" "opencv_bgsegm" "opencv_bioinspired" "opencv_calib3d" "opencv_ccalib" "opencv_datasets")
 
-set(LIBS
-        ${OpenCV_LIBS}
-        #        "opencv_core"
-        #        "opencv_imgcodecs"
-        #        "opencv_imgproc"
-        #        "opencv_highgui"
-        #        "opencv_videoio"
-        )
+set(LIBS ${OpenCV_LIBS})
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp nms.h)
 target_link_libraries(${PROJECT_NAME} ${LIBS})
