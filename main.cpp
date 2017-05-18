@@ -12,17 +12,18 @@ int main(int argc, char* argv[])
     std::vector<cv::Rect> srcRects;
     std::vector<float> scores;
 
-    int testInd = 3;
+    int testInd = 4;
+    float minScoresSum = 0;
 
     switch (testInd)
     {
-    case 0:
+    case 0:  // Only rectangles
         srcRects.push_back(cv::Rect(cv::Point(114, 60), cv::Point(178, 124)));
         srcRects.push_back(cv::Rect(cv::Point(120, 60), cv::Point(184, 124)));
         srcRects.push_back(cv::Rect(cv::Point(114, 66), cv::Point(178, 130)));
         break;
 
-    case 1:
+    case 1:  // Only rectangles
         srcRects.push_back(cv::Rect(cv::Point(12, 84), cv::Point(140, 212)));
         srcRects.push_back(cv::Rect(cv::Point(24, 84), cv::Point(152, 212)));
         srcRects.push_back(cv::Rect(cv::Point(12, 96), cv::Point(140, 224)));
@@ -31,7 +32,7 @@ int main(int argc, char* argv[])
         srcRects.push_back(cv::Rect(cv::Point(24, 108), cv::Point(152, 236)));
         break;
 
-    case 2:
+    case 2:  // Only rectangles
         srcRects.push_back(cv::Rect(cv::Point(12, 30), cv::Point(76, 94)));
         srcRects.push_back(cv::Rect(cv::Point(12, 36), cv::Point(76, 100)));
         srcRects.push_back(cv::Rect(cv::Point(72, 36), cv::Point(200, 164)));
@@ -39,7 +40,7 @@ int main(int argc, char* argv[])
         srcRects.push_back(cv::Rect(cv::Point(1, 1), cv::Point(40, 40)));
         break;
 
-    case 3:
+    case 3:  // Rectangles and scores
         srcRects.push_back(cv::Rect(cv::Point(12, 30), cv::Point(76, 94)));
         scores.push_back(0.7f);
 
@@ -51,6 +52,22 @@ int main(int argc, char* argv[])
 
         srcRects.push_back(cv::Rect(cv::Point(84, 58), cv::Point(212, 186)));
         scores.push_back(0.4f);
+        break;
+
+    case 4:  // Rectangles, scores and minimum score sum
+        srcRects.push_back(cv::Rect(cv::Point(12, 30), cv::Point(76, 94)));
+        scores.push_back(0.7f);
+
+        srcRects.push_back(cv::Rect(cv::Point(12, 36), cv::Point(76, 110)));
+        scores.push_back(0.5f);
+
+        srcRects.push_back(cv::Rect(cv::Point(72, 36), cv::Point(200, 164)));
+        scores.push_back(0.3f);
+
+        srcRects.push_back(cv::Rect(cv::Point(84, 58), cv::Point(212, 186)));
+        scores.push_back(0.4f);
+
+        minScoresSum = 0.8f;
         break;
     }
 
@@ -75,6 +92,10 @@ int main(int argc, char* argv[])
             cv::rectangle(img, r, cv::Scalar(0, 0, 255), 2);
             cv::putText(img, std::to_string(scores[i]), cv::Point(r.x + 2, r.y + r.height - 4), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(200, 200, 200), 1, cv::LINE_8, false);
         }
+        cv::putText(img,
+                    std::string("min scores sum = ") + std::to_string(minScoresSum),
+                    cv::Point(10, img.rows - 4),
+                    cv::FONT_HERSHEY_SIMPLEX, 0.7, cv::Scalar(200, 200, 200), 1, cv::LINE_8, false);
     }
     else
     {
@@ -91,7 +112,7 @@ int main(int argc, char* argv[])
     std::vector<cv::Rect> resRects;
     if (srcRects.size() == scores.size())
     {
-        nms2(srcRects, scores, resRects, 0.3f, 1);
+        nms2(srcRects, scores, resRects, 0.3f, 1, minScoresSum);
     }
     else
     {

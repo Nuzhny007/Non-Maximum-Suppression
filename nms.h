@@ -84,7 +84,8 @@ inline void nms2(
         const std::vector<float>& scores,
         std::vector<cv::Rect>& resRects,
         float thresh,
-        int neighbors = 0
+        int neighbors = 0,
+        float minScoresSum = 0.f
         )
 {
     resRects.clear();
@@ -112,6 +113,7 @@ inline void nms2(
         const cv::Rect& rect1 = srcRects[lastElem->second];
 
         int neigborsCount = 0;
+        float scoresSum = lastElem->first;
 
         idxs.erase(lastElem);
 
@@ -127,6 +129,7 @@ inline void nms2(
             // if there is sufficient overlap, suppress the current bounding box
             if (overlap > thresh)
             {
+                scoresSum += pos->first;
                 pos = idxs.erase(pos);
                 ++neigborsCount;
             }
@@ -135,7 +138,8 @@ inline void nms2(
                 ++pos;
             }
         }
-        if (neigborsCount >= neighbors)
+        if (neigborsCount >= neighbors &&
+                scoresSum >= minScoresSum)
         {
             resRects.push_back(rect1);
         }
