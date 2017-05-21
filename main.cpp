@@ -92,10 +92,13 @@ int main(int argc, char* argv[])
             cv::rectangle(img, r, cv::Scalar(0, 0, 255), 2);
             cv::putText(img, std::to_string(scores[i]), cv::Point(r.x + 2, r.y + r.height - 4), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(200, 200, 200), 1, cv::LINE_8, false);
         }
-        cv::putText(img,
-                    std::string("min scores sum = ") + std::to_string(minScoresSum),
-                    cv::Point(10, img.rows - 4),
-                    cv::FONT_HERSHEY_SIMPLEX, 0.7, cv::Scalar(200, 200, 200), 1, cv::LINE_8, false);
+        if (minScoresSum > 0)
+        {
+            cv::putText(img,
+                        std::string("min scores sum = ") + std::to_string(minScoresSum),
+                        cv::Point(10, img.rows - 4),
+                        cv::FONT_HERSHEY_SIMPLEX, 0.7, cv::Scalar(200, 200, 200), 1, cv::LINE_8, false);
+        }
     }
     else
     {
