@@ -1,3 +1,5 @@
+![travis ci:](https://travis-ci.org/Smorodov/Multitarget-tracker.svg?branch=master)
+
 # Non-Maximum-Suppression
 C++ implementation of Non-Maximum Suppression algorithm.
 Original code on Python are here: http://www.pyimagesearch.com/2014/11/17/non-maximum-suppression-object-detection-python/
