@@ -1,4 +1,4 @@
-![travis ci:](https://travis-ci.org/Smorodov/Multitarget-tracker.svg?branch=master)
+![travis ci:](https://travis-ci.org/Nuzhny007/Non-Maximum-Suppression.svg?branch=master)
 
 # Non-Maximum-Suppression
 C++ implementation of Non-Maximum Suppression algorithm.
