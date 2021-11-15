@@ -1,4 +1,4 @@
-![travis ci:](https://travis-ci.org/Nuzhny007/Non-Maximum-Suppression.svg?branch=master)
+[![Status](https://github.com/Nuzhny007/Non-Maximum-Suppression/actions/workflows/cmake.yml/badge.svg?branch=master)](https://github.com/Nuzhny007/Non-Maximum-Suppression/actions?query=workflow%3Aci-build)
 
 #### News: added soft nms!
 
