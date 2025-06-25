@@ -1,10 +1,12 @@
-[![Status](https://github.com/Nuzhny007/Non-Maximum-Suppression/actions/workflows/cmake.yml/badge.svg?branch=master)](https://github.com/Nuzhny007/Non-Maximum-Suppression/actions?query=workflow%3Aci-build)
+[![Build Ubuntu](https://github.com/Nuzhny007/Non-Maximum-Suppression/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/Nuzhny007/Non-Maximum-Suppression/actions/workflows/ubuntu.yml)
+[![Build MacOS](https://github.com/Nuzhny007/Non-Maximum-Suppression/actions/workflows/macos.yml/badge.svg)](https://github.com/Nuzhny007/Non-Maximum-Suppression/actions/workflows/macos.yml)
+[![CodeQL](https://github.com/Nuzhny007/Non-Maximum-Suppression/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Nuzhny007/Non-Maximum-Suppression/actions/workflows/codeql-analysis.yml)
 
 #### News: added soft nms!
 
 # Non-Maximum-Suppression
 C++ implementation of Non-Maximum Suppression algorithm.
-Original code on Python are here: http://www.pyimagesearch.com/2014/11/17/non-maximum-suppression-object-detection-python/
+Original code on Python are here: [pyimagesearch](http://www.pyimagesearch.com/2014/11/17/non-maximum-suppression-object-detection-python/)
 
 And added more options:
 1. Simple suppression without scores, minimum neighbours count = 1:
